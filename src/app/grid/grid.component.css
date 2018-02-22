@@ -1,0 +1,19 @@
+span {
+  float: left;
+  width: 20px;
+  height: 20px;
+  background: linear-gradient(to bottom right, white, lightgray);
+  text-align: center;
+  vertical-align: middle;
+  line-height: 20px;
+  margin: 0px;
+  cursor: pointer;
+  font-weight: bold;
+  font-family: "Arial Black", Gadget, sans-serif;
+}
+
+.gridDiv {
+  margin: auto;
+  overflow: hidden;
+  background: linear-gradient(to bottom right, darkgrey, lightgray);
+}

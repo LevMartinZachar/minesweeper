@@ -1,0 +1,10 @@
+<div class="gridDiv" oncontextmenu="return false" [style.width]="setGridWidth()">
+  <span id="{{cell.id}}"
+          on-contextmenu="toggleFlag(cell.id)"
+          (click)="revealCell(cell.id)"
+          *ngFor="let cell of cells"
+          [style.color]="showId(cell.id)"
+          [style.background]="setBackground(cell.id)">
+      {{cell.output}}
+  </span>
+</div>

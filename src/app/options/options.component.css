@@ -1,0 +1,25 @@
+.optionsDiv {
+  width: 400px;
+  padding: 20px;
+  margin: auto;
+  background-color: lightgray;
+  text-align: center;
+  margin-bottom: 20px;
+  overflow: hidden;
+}
+
+label {
+  display: inline-block;
+  margin-left: 30px;
+  margin-right: 30px;
+}
+
+#optionInputs {
+  margin: auto;
+  width: 120px;
+  display: inline-block;
+}
+
+input {
+  width: 80px;
+}
