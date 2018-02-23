@@ -7,7 +7,7 @@ import { GameService } from './game.service';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'the Ultimate Minesweeper';
+  title = 'Minesweeper';
 
   constructor(private gameService: GameService) {
   }

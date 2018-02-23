@@ -1,10 +1,10 @@
 <div class="optionsDiv">
-  <label>Score: {{score}}</label>
-  <span id="optionInputs">
+  <label>☀: {{total_score}}</label>
+  <div id="optionInputs">
     Width<input #width [value]="30">
     Heigth<input #height [value]="16">
-    Number of mines<input #number_of_mines [value]="99">
+    Mines<input #number_of_mines [value]="99">
     <button (click)="startNewGame(width.value, height.value, number_of_mines.value)">New Game</button>
-  </span>
-  <label>Time: {{time}}</label>
+  </div>
+  <label>⏰: {{time}}</label>
 </div>

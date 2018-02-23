@@ -9,11 +9,13 @@ import {GameService} from '../game.service';
 })
 export class OptionsComponent implements OnInit {
   time: number;
-  score: number;
+  total_score: number;
   grid: Grid;
+  exploded_mine: number;
 
   constructor(private gameService: GameService) {
-    this.gameService.total_score.subscribe( total_score => {this.score = total_score; });
+    this.gameService.total_score.subscribe( total_score => {this.total_score = total_score; });
+    this.gameService.exploded_mine.subscribe( exploded => {this.exploded_mine = exploded; });
   }
 
   startNewGame(width, height, number_of_mines) {
@@ -23,21 +25,21 @@ export class OptionsComponent implements OnInit {
     this.grid = new Grid(width, height, number_of_mines);
     this.gameService.resetTime();
     this.gameService.total_score.next(number_of_mines);
-    // this.score = this.gameService.getScore();
-    // this.time = this.gameService.getTime();
     this.gameService.generateGrid(width, height, number_of_mines);
   }
 
   getTime(): void {
     this.gameService.incrementTime().subscribe(() => {
-        // console.log('detecting getTime');
-        this.time = this.gameService.getTime();
+        if (this.exploded_mine === undefined) {
+          this.time = this.gameService.getTime();
+        }
       }
     );
   }
 
   ngOnInit() {
-    this.score = this.gameService.total_score.getValue();
+    this.total_score = this.gameService.total_score.getValue();
+    this.exploded_mine = this.gameService.exploded_mine.getValue();
     this.time = this.gameService.resetTime();
     this.getTime();
   }

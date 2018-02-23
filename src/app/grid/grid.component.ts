@@ -10,9 +10,11 @@ import {Cell} from '../cell';
 
 export class GridComponent implements OnInit {
   cells: Cell[] = [];
+  exploded_mine: number;
 
   constructor(private gameService: GameService) {
-    this.gameService.generateGrid(8, 6, 8);
+    this.gameService.generateGrid(30, 16, 100);
+    this.gameService.exploded_mine.subscribe( exploded => {this.exploded_mine = exploded; });
   }
 
   setGridWidth() {
@@ -28,14 +30,19 @@ export class GridComponent implements OnInit {
   }
 
   toggleFlag(id: number) {
-    this.gameService.toggleFlag(id);
+    if (this.exploded_mine === undefined) {
+      this.gameService.toggleFlag(id);
+    }
   }
 
   revealCell(id: number) {
-    this.gameService.revealCell(id);
+    if (this.exploded_mine === undefined) {
+      this.gameService.revealCell(id);
+    }
   }
 
   ngOnInit() {
     this.cells = this.gameService.getCells();
+    this.exploded_mine = this.gameService.exploded_mine.getValue();
   }
 }

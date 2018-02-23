@@ -14,7 +14,7 @@ export class GameService {
   counter: Observable<number>;
   time: number;
   number_of_revealed_cells: number;
-  exploded_mine: number;
+  exploded_mine: BehaviorSubject<number> = new BehaviorSubject<number>(undefined);
 
   constructor() { }
 
@@ -51,7 +51,7 @@ export class GameService {
     this.total_score.next(grid_number_of_mines);
     this.grid = new Grid(grid_width, grid_height, grid_number_of_mines);
     this.number_of_revealed_cells = 0;
-    this.exploded_mine = undefined;
+    this.exploded_mine.next(undefined);
 
     for (let _i = 0; _i < grid_width * grid_height; _i++) {
       this.cells[_i] = new Cell(_i, false, false, 0, false, '');
@@ -60,7 +60,6 @@ export class GameService {
     this.plantMines(this.grid.width, this.grid.height, this.grid.number_of_mines);
     for (let _i = 0; _i < grid_width * grid_height; _i++) {
       if (this.cells[_i].mine) { continue; }
-      // console.log('counting n o m at id: ' + _i);
       this.cells[_i].number_of_nearby_mines = this.computeNumberOfNearbyMines(_i);
     }
   }
@@ -119,7 +118,7 @@ export class GameService {
   revealCell(id: number) {
     if (this.cells[id].mine && !this.cells[id].flag) {
       this.cells[id].output = '☀';
-      this.exploded_mine = id;
+      this.exploded_mine.next(id);
       this.revealAllMines();
     } else {
       if (this.cells[id].number_of_nearby_mines === 0 && !this.cells[id].revealed) {
@@ -133,7 +132,6 @@ export class GameService {
     if (this.number_of_revealed_cells === this.grid.width * this.grid.height - this.grid.number_of_mines) {
       alert('You win!');
     }
-    // console.log('revealed ', this.number_of_revealed_cells);
   }
 
   revealArea(id: number) {
@@ -245,7 +243,7 @@ export class GameService {
         }
       }
     }
-    if(this.number_of_revealed_cells === this.grid.width * this.grid.height - this.grid.number_of_mines) {
+    if (this.number_of_revealed_cells === this.grid.width * this.grid.height - this.grid.number_of_mines) {
       alert('You win!');
     }
     if (this.stack.length < 2) {
@@ -322,12 +320,11 @@ export class GameService {
   }
 
   setBackground(id: number) {
-    if (this.cells[id].revealed && id === this.exploded_mine) { return 'red'; }
+    if (this.cells[id].revealed && id === this.exploded_mine.getValue()) { return 'red'; }
     if (this.cells[id].revealed && this.cells[id].output !== '⛳') { return 'linear-gradient(to bottom right, darkgray, lightgray)'; }
   }
 
   setGridWidth() {
-    // console.log('setting grid width ' + this.grid.width * 20 + 'px');
     return this.grid.width * 20 + 'px';
   }
 }
